@@ -16,9 +16,9 @@
      | | :  `- \`.;`\ _ /`;.`/ - ` : | |
      \  \ `-.   \_ __\ /__ _/   .-` /  /
 ======`-.____`-.___\_____/___.-`____.-'======
-                   `=---='\n
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n
-         I have a dream!A AC deram!!\n
+                   `=---='
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         I have a dream!A AC deram!!
  orz orz orz orz orz orz orz orz orz orz orz
  orz orz orz orz orz orz orz orz orz orz orz
  orz orz orz orz orz orz orz orz orz orz orz
