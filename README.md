@@ -18,7 +18,3 @@
 ======`-.____`-.___\_____/___.-`____.-'======
                    `=---='
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-         I have a dream!A AC deram!!
- orz orz orz orz orz orz orz orz orz orz orz
- orz orz orz orz orz orz orz orz orz orz orz
- orz orz orz orz orz orz orz orz orz orz orz
