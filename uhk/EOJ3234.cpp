@@ -2,7 +2,7 @@
 #include <cstring>
 #include <algorithm>
 using namespace std;
-const int maxn = 1e5 + 100;
+const int maxn = 100000 + 100;
 typedef long long ll;
 ll res;
 ll ar[maxn], temp[maxn];
