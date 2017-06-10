@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <iostream>
+#include <istream>
+#include <fstream>
 #include <cmath>
 #include <cstring>
 #include <string>
@@ -12,59 +14,94 @@ class Shape
 public:
 	Shape() {}
 	Shape(double a, double b) : L(a), W(b) {}
-	virtual double getArea()
-	{
-		return L * W;
-	}
-	double & getL() { return L; }
-	double & getW() { return W; }
+	virtual void input() = 0;
+	virtual double area() = 0;
+	virtual void show() = 0;
 	virtual ~Shape() {}
-private:
+protected:
 	double L;
 	double W;
 };
 class Rectangle : public Shape
 {
 public:
-	Rectangle() {}
+	Rectangle() : Shape() {}
 	Rectangle(double a, double b) : Shape(a, b) {}
-	virtual double getArea()
+	virtual void input()
 	{
-		return getL() * getW();
+		cout << "Please input 2 double numbers : " << endl;
+		cin >> L >> W;
+	}
+	virtual double area()
+	{
+		return L * W;
+	}
+	virtual void show()
+	{
+		cout << "L = " << L << "  W = " << W << "  S = " << area() << endl;
 	}
 	virtual ~Rectangle() {}
 };
 class Circle : public Shape
 {
 public:
-	Circle() {}
+	Circle() : Shape() {}
 	Circle(double a, double b) : Shape(a, b) {}
-	virtual double getArea()
+	virtual void input()
 	{
-		return PI * getL() * getW();
+		cout << "Please input 1 double number\n";
+		cin >> L;
+	}
+	virtual double area()
+	{
+		return PI * L * L;
+	}
+	virtual void show()
+	{
+		cout << "L = " << L << "  S = " << area() << endl;
 	}
 	virtual ~Circle() {}
 };
-class Square : public Rectangle
+class Square : public Shape
 {
 public:
-	Square() {}
-	Square(double a, double b) : Rectangle(a, b) {}
+	Square() : Shape() {}
+	Square(double a, double b) : Shape(a, b) {}
+	virtual void input()
+	{
+		cout << "Please input 1 double number:\n";
+		cin >> L;
+	}
+	virtual double area()
+	{
+		return L * L;
+	}
+	virtual void show()
+	{
+		cout << "L = " << L << "  S = "<< area() << endl;
+	}
 	~Square() {}
 };
 int main()
 {
-	Shape t0(2.5, 6.4);
-	Rectangle t1(2.2, 4.0);
-	Circle t2(3.0, 3.0);
-	Square t3(2.0, 2.0);
-	cout << t0.getArea() << endl;
-	cout << t1.getArea() << endl;
-	cout << t2.getArea() << endl;
-	cout << t3.getArea() << endl;
+	cout.setf(ios_base::fixed, ios_base::floatfield);
+	Rectangle p1;
+	Circle p2;
+	Square p3;
+	Shape* p[3] = { &p1, &p2, &p3 };
+	for (int i = 0; i < 3; i++)
+	{
+		p[i]->input();
+	}
+	double S = 0.0;
+	for (int i = 0; i < 3; i++)
+	{
+		p[i]->show();
+		S += p[i]->area();
+	}
+	cout << S << endl;
 	return 0;
 }
-
 
 
 #include <cstdio>
