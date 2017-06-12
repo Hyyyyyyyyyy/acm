@@ -240,7 +240,7 @@ void Matrix<T>::show(ofstream& OUT)
 template<class T>
 Matrix<T> Matrix<T>::multiply(Matrix<T>& q)
 {
-	if (M != q.N || N != q.M)
+	if (M != q.N)
 	{
 		throw 0;
 	}
