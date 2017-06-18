@@ -53,12 +53,7 @@ int main()
 		}
 		if (ar[1] != ar[2] && ar[2] == ar[3])
 		{
-			printf("%I64d\n", flag1);
-			continue;
-		}
-		if (ar[1] == ar[3] && ar[2] != ar[1])
-		{
-			printf("%I64d\n", flag2);
+			printf("%I64d\n", C(flag3, 2));
 			continue;
 		}
 		if (ar[1] != ar[2] && ar[1] != ar[3] && ar[2] != ar[3])
