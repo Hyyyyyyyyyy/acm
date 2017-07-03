@@ -18,9 +18,9 @@ int gcd(int a,int b)
 }
 
 //扩展欧几里得
-int exGcd(int a, int b, int &x, int &y)
+ll exGcd(ll a, ll b, ll &x, ll &y)
 {
-    int res, temp;
+    ll res, temp;
     if(b==0)
     {
         x=1;
@@ -53,11 +53,11 @@ int gcd(int a, int b, int &x, int &y)
 #include<iostream>
 #include<cstdio>
 #include<cstring>
-typedef long long LL;
-const int N = 1000;
+typedef long long ll;
+const int maxn = 20;
 using namespace std;
-LL M ;
-void extend_Euclid(LL a, LL b, LL &x, LL &y)
+ll A[maxn], M[maxn];
+void extend_Euclid(ll a, ll b, ll &x, ll &y)
 {
 	if (b == 0)
 	{
@@ -66,24 +66,25 @@ void extend_Euclid(LL a, LL b, LL &x, LL &y)
 		return;
 	}
 	extend_Euclid(b, a % b, x, y);
-	LL tmp = x;
+	ll tmp = x;
 	x = y;
 	y = tmp - (a / b) * y;
 }
-LL CRT(LL a[],LL m[],LL n)
+ll CRT(ll n)
 {
-    LL ans = 0;
-    for(int i=1; i<=n; i++)
-        M *= m[i];
-    for(int i=1; i<=n; i++)
-    {
-        LL x, y;
-        LL Mi = M / m[i];
-        extend_Euclid(Mi, m[i], x, y);
-        ans = (ans + Mi * x * a[i]) % M;
-    }
-    if(ans < 0) ans += M;
-    return ans;
+	ll ans = 0;
+	ll MM = 1;
+	for (ll i = 1; i <= n; i++)
+		MM *= M[i];
+	for (ll i = 1; i <= n; i++)
+	{
+		ll x, y;
+		ll Mi = MM / M[i];
+		extend_Euclid(Mi, M[i], x, y);
+		ans = (ans + Mi * x * A[i]) % MM;
+	}
+	if (ans < 0) ans += MM;
+	return ans;
 }
 
 
@@ -92,46 +93,46 @@ LL CRT(LL a[],LL m[],LL n)
 #include <cstdio>
 #include <cstring>
 using namespace std;
-typedef long long int LL;
-const int N = 15;
-LL M;
+typedef long long int ll;
+const int maxn = 15;
+ll M;
 
-LL gcd(LL a, LL b)
+ll gcd(ll a, ll b)
 {
 	if (b == 0)
 		return a;
 	return gcd(b, a%b);
 }
 
-LL Extend_Euclid(LL a, LL b, LL&x, LL& y)
+ll Extend_Euclid(ll a, ll b, ll&x, ll& y)
 {
 	if (b == 0)
 	{
 		x = 1, y = 0;
 		return a;
 	}
-	LL d = Extend_Euclid(b, a%b, x, y);
-	LL t = x;
+	ll d = Extend_Euclid(b, a%b, x, y);
+	ll t = x;
 	x = y;
 	y = t - a / b*y;
 	return d;
 }
 
 //a在模n乘法下的逆元，没有则返回-1
-LL inv(LL a, LL n)
+ll inv(ll a, ll n)
 {
-	LL x, y;
-	LL t = Extend_Euclid(a, n, x, y);
+	ll x, y;
+	ll t = Extend_Euclid(a, n, x, y);
 	if (t != 1)
 		return -1;
 	return (x%n + n) % n;
 }
 
 //将两个方程合并为一个
-bool merge(LL a1, LL n1, LL a2, LL n2, LL& a3, LL& n3)
+bool merge(ll a1, ll n1, ll a2, ll n2, ll& a3, ll& n3)
 {
-	LL d = gcd(n1, n2);
-	LL c = a2 - a1;
+	ll d = gcd(n1, n2);
+	ll c = a2 - a1;
 	if (c%d)
 		return false;
 	c = (c%n2 + n2) % n2;
@@ -148,13 +149,13 @@ bool merge(LL a1, LL n1, LL a2, LL n2, LL& a3, LL& n3)
 }
 
 //求模线性方程组x=ai(mod ni),ni可以不互质
-LL China_Reminder2(int len, LL* a, LL* n)
+ll China_Reminder2(int len, ll* a, ll* n)
 {
-	LL a1 = a[0], n1 = n[0];
-	LL a2, n2;
+	ll a1 = a[0], n1 = n[0];
+	ll a2, n2;
 	for (int i = 1; i < len; i++)
 	{
-		LL aa, nn;
+		ll aa, nn;
 		a2 = a[i], n2 = n[i];
 		if (!merge(a1, n1, a2, n2, aa, nn))
 			return -1;
@@ -167,5 +168,5 @@ LL China_Reminder2(int len, LL* a, LL* n)
 
 int main()
 {
-    LL a[N], m[N], res;
+    ll a[N], m[N], res;
 }
