@@ -48,7 +48,7 @@ int gcd(int a, int b, int &x, int &y)
 }
 */
 
-//a[] 是余数， m[]是除数，M是总乘数，Mi是去掉m[i]的乘数， x, y是扩展欧几里得的系数，ans是结果；
+//A[] 是余数， M[]是除数，MM是总乘数，Mi是去掉M[i]的乘数， x, y是扩展欧几里得的系数，ans是结果；
 //中国剩余定理 互质模板；
 #include<iostream>
 #include<cstdio>
@@ -87,7 +87,7 @@ ll CRT(ll n)
 	return ans;
 }
 
-
+//A[] 是余数， M[]是除数，S是通解的差， x, y是扩展欧几里得的系数，ans是结果；
 //中国剩余定理 非互质模板；
 #include <iostream>
 #include <cstdio>
@@ -95,13 +95,19 @@ ll CRT(ll n)
 using namespace std;
 typedef long long int ll;
 const int maxn = 15;
-ll M;
+ll S;
+ll A[maxn], M[maxn];
 
-ll gcd(ll a, ll b)
+ll gcd(ll x, ll y)
 {
-	if (b == 0)
-		return a;
-	return gcd(b, a%b);
+	ll t;
+	while (y)
+	{
+		t = x%y;
+		x = y;
+		y = t;
+	}
+	return  x;
 }
 
 ll Extend_Euclid(ll a, ll b, ll&x, ll& y)
@@ -129,44 +135,45 @@ ll inv(ll a, ll n)
 }
 
 //将两个方程合并为一个
-bool merge(ll a1, ll n1, ll a2, ll n2, ll& a3, ll& n3)
+bool merge(ll a1, ll m1, ll a2, ll m2, ll& a3, ll& m3)
 {
-	ll d = gcd(n1, n2);
+	ll d = gcd(m1, m2);
 	ll c = a2 - a1;
 	if (c%d)
 		return false;
-	c = (c%n2 + n2) % n2;
+	c = (c%m2 + m2) % m2;
 	c /= d;
-	n1 /= d;
-	n2 /= d;
-	c *= inv(n1, n2);
-	c %= n2;
-	c *= n1*d;
+	m1 /= d;
+	m2 /= d;
+	c *= inv(m1, m2);
+	c %= m2;
+	c *= m1*d;
 	c += a1;
-	n3 = n1*n2*d;
-	a3 = (c%n3 + n3) % n3;
+	m3 = m1*m2*d;
+	a3 = (c%m3 + m3) % m3;
 	return true;
 }
 
 //求模线性方程组x=ai(mod ni),ni可以不互质
-ll China_Reminder2(int len, ll* a, ll* n)
+//最小结果（特解）是(a1%n1 + n1) % n1，通解是(a1%n1 + n1) % n1 + K*S，K是倍数
+ll China_Reminder2(ll len)
 {
-	ll a1 = a[0], n1 = n[0];
-	ll a2, n2;
-	for (int i = 1; i < len; i++)
+	ll a1 = A[1], m1 = M[1];
+	ll a2, m2;
+	for (ll i = 2; i <= len; i++)
 	{
-		ll aa, nn;
-		a2 = a[i], n2 = n[i];
-		if (!merge(a1, n1, a2, n2, aa, nn))
+		ll aa, mm;
+		a2 = A[i], m2 = M[i];
+		if (!merge(a1, m1, a2, m2, aa, mm))
 			return -1;
 		a1 = aa;
-		n1 = nn;
+		m1 = mm;
 	}
-	M = n1;
-	return (a1%n1 + n1) % n1;
+	S = m1;			//S 或者 n1 就是 通解的差
+	return (a1 % m1 + m1) % m1;
 }
 
 int main()
 {
-    ll a[N], m[N], res;
+   
 }
