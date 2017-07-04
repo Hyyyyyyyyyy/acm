@@ -11,11 +11,17 @@ int gcd(int x,int y)
     return  x;
 }
 最小公倍数 = x * y / gcd(x, y);
+
 //朴素欧几里得 递归
 int gcd(int a,int b)
 {
     return b ? gcd(b, a%b):a;
 }
+
+
+
+
+
 
 //扩展欧几里得
 ll exGcd(ll a, ll b, ll &x, ll &y)
@@ -86,6 +92,15 @@ ll CRT(ll n)
 	if (ans < 0) ans += MM;
 	return ans;
 }
+
+
+
+
+
+
+
+
+
 
 //A[] 是余数， M[]是除数，S是通解的差， x, y是扩展欧几里得的系数，ans是结果；
 //中国剩余定理 非互质模板；
