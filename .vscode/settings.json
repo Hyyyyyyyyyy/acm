@@ -102,6 +102,8 @@
         "hanjia4.1.c": "cpp",
         "hanjia10.6.c": "cpp",
         "hanjia10.2.c": "cpp",
-        "acm1251 .c": "cpp"
+        "acm1251 .c": "cpp",
+        "acm2111.c": "cpp",
+        "acm2955 .c": "cpp"
     }
 }
