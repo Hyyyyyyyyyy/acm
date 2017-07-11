@@ -105,6 +105,20 @@
         "acm1251 .c": "cpp",
         "acm2111.c": "cpp",
         "acm2955 .c": "cpp",
-        "测试1，1.c": "cpp"
+        "测试1，1.c": "cpp",
+        "acm1160 .c": "cpp",
+        "acm2191 .c": "cpp",
+        "acm2844 .c": "cpp",
+        "acm2846 .c": "cpp",
+        "hanjia1.2 .c": "cpp",
+        "hanjia2.5.c": "cpp",
+        "hanjia6.6.c": "cpp",
+        "hanjia7.5.c": "cpp",
+        "hanjia8.6.c": "cpp",
+        "起点 (7).c": "cpp",
+        "课堂作业22 排序 .c": "cpp",
+        "acm1718 .c": "cpp",
+        "acm2034 .c": "cpp",
+        "acm2083 .c": "cpp"
     }
 }
