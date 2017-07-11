@@ -47,7 +47,7 @@ int main()
 		{
 			scanf("%d", &ar[i]);
 		}
-		block_len = (int)sqrt(N + 0.5);
+		block_len = (int)sqrt(N);
 		scanf("%d", &M);
 		int cnt = 1;
 		for (i = 1; i <= M; i++)
