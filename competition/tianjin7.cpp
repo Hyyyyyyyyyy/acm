@@ -104,7 +104,7 @@ void getgrundy()
 {
 	int i, j;
 	grundy[0] = 0;
-	int maxr = 15;
+	int maxr = 15;			//这个也可以在读入后使用写为 int maxr = *max_element(sa+1, sa+1+cnt);
 	for (i = 2; i <= maxr; i++)
 	{
 		set<int>S;
