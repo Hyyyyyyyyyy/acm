@@ -42,7 +42,8 @@ void dfs(ll n)
 	{
 		ll u = edge[i].u;
 		ll v = edge[i].v;
-		ar[v].mincost = min(ar[u].minval, min(ar[u].mincost + ar[u].val, ar[u].mincost + ar[v].cost));
+		ll w = edge[i].val;
+		ar[v].mincost = min(ar[u].minval, min(ar[u].mincost + ar[u].val, ar[u].mincost + w));
 		ar[v].minval = min(ar[v].mincost + ar[v].val, ar[u].minval);
 		dfs(v);
 	}
