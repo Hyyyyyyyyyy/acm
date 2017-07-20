@@ -14,7 +14,6 @@ struct Node
 	int sta[maxn];
 	int root;
 	int CNT;
-	int MAX;
 	char s[100];
 	char ss[1000010];
 	void clear()
@@ -45,7 +44,7 @@ struct Node
 		int i, j;
 		int now = root;
 		queue<int>q;
-		for (i = 0; i < MAX; i++)
+		for (i = 0; i < 26; i++)
 		{
 			if (next[root][i] == -1)
 			{
@@ -61,7 +60,7 @@ struct Node
 		{
 			now = q.front();
 			q.pop();
-			for (i = 0; i < MAX; i++)
+			for (i = 0; i < 26; i++)
 			{
 				if (next[now][i] != -1)
 				{
@@ -109,6 +108,8 @@ struct Node
 	}
 };
 Node AC;
+//若把MAX直接改为数字，会快50ms
+//next数组别忘了改范围，默认26
 int main()
 {
 	int i, j, k, u, n, m;
