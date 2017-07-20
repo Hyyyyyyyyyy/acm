@@ -113,7 +113,6 @@ Node AC;
 int main()
 {
 	int i, j, k, u, n, m;
-	AC.MAX = 26;
     scanf("%d", &N);
     AC.clear();
     for (i = 1; i <= N; i++)
