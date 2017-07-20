@@ -14,16 +14,20 @@ struct Node
 	int sta[maxn];
 	int root;
 	int CNT;
-	int MAX;
 	char s[100];
 	char ss[1000010];
-	void clear()
+	int newnode()
 	{
-		memset(fail, -1, sizeof(fail));
-		memset(next, -1, sizeof(next));
-		memset(sta, 0, sizeof(sta));
-		root = 0;
-		CNT = 1;
+		for(int i = 0; i < 26; i++)
+			next[CNT][i] = -1;
+		fail[CNT] = -1;
+		sta[CNT] = 0;
+		return CNT++;
+	}
+	void init()
+	{
+		CNT = 0;
+		root = newnode();
 	}
 	void ac_insert()
 	{
@@ -34,7 +38,7 @@ struct Node
 		{
 			if (next[now][s[i] - 'a'] == -1)
 			{
-				next[now][s[i] - 'a'] = CNT++;
+				next[now][s[i] - 'a'] = newnode();
 			}
 			now = next[now][s[i] - 'a'];
 		}
@@ -45,7 +49,7 @@ struct Node
 		int i, j;
 		int now = root;
 		queue<int>q;
-		for (i = 0; i < MAX; i++)
+		for (i = 0; i < 26; i++)
 		{
 			if (next[root][i] != -1)
 			{
@@ -108,9 +112,8 @@ Node AC;
 int main()
 {
 	int i, j, k, u, n, m;
-	AC.MAX = 26;
     scanf("%d", &N);
-    AC.clear();
+    AC.init();
     for (i = 1; i <= N; i++)
     {
         scanf("%s", AC.s);

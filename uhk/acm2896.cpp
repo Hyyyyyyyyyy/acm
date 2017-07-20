@@ -5,20 +5,22 @@
 #include <cctype>
 #include <queue>
 using namespace std;
-const int maxn = 300010;
+const int maxn = 210 * 500;
 int N;
 struct Node
 {
 	int fail[maxn];
-	int next[maxn][26];
+	int next[maxn][128];
 	int sta[maxn];
 	int root;
 	int CNT;
-	char s[100];
-	char ss[1000010];
-	int newnode()
+	int stack[501];
+	int top;
+	char ss[10010];
+	int newNode()
 	{
-		for(int i = 0; i < 26; i++)
+		int i;
+		for (i = 0; i < 128; i++)
 			next[CNT][i] = -1;
 		fail[CNT] = -1;
 		sta[CNT] = 0;
@@ -27,29 +29,29 @@ struct Node
 	void init()
 	{
 		CNT = 0;
-		root = newnode();
+		root = newNode();
 	}
-	void ac_insert()
+	void ac_insert(int n)
 	{
 		int i, j, k;
 		int now = root;
-		int L = strlen(s);
+		int L = strlen(ss);
 		for (i = 0; i < L; i++)
 		{
-			if (next[now][s[i] - 'a'] == -1)
+			if (next[now][ss[i]] == -1)
 			{
-				next[now][s[i] - 'a'] = newnode();
+				next[now][ss[i]] = newNode();
 			}
-			now = next[now][s[i] - 'a'];
+			now = next[now][ss[i]];
 		}
-		sta[now]++;
+		sta[now] = n;
 	}
 	void ac_buildfail_bfs()
 	{
 		int i, j;
 		int now = root;
 		queue<int>q;
-		for (i = 0; i < 26; i++)
+		for (i = 0; i < 128; i++)
 		{
 			if (next[root][i] == -1)
 			{
@@ -65,7 +67,7 @@ struct Node
 		{
 			now = q.front();
 			q.pop();
-			for (i = 0; i < 26; i++)
+			for (i = 0; i < 128; i++)
 			{
 				if (next[now][i] != -1)
 				{
@@ -92,42 +94,60 @@ struct Node
 			}
 		}
 	}
-	int ac_query()
+	void ac_query()
 	{
 		int i, j;
 		int res = 0;
+		top = 0;
 		int now = root;
 		int L = strlen(ss);
 		for (i = 0; i < L; i++)
 		{
-			now = next[now][ss[i] - 'a'];
+			now = next[now][ss[i]];
 			int temp = now;
 			while (temp != -1)
 			{
-				res += sta[temp];
-				sta[temp] = 0;
+				if (sta[temp])
+					stack[++top] = sta[temp];
 				temp = fail[temp];
 			}
 		}
-		return res;
 	}
 };
 Node AC;
-//若把MAX直接改为数字，会快50ms
-//next数组别忘了改范围，默认26
 int main()
 {
-	int i, j, k, u, n, m;
-    scanf("%d", &N);
-    AC.init();
-    for (i = 1; i <= N; i++)
-    {
-        scanf("%s", AC.s);
-        AC.ac_insert();
-    }
-    AC.ac_buildfail_bfs();
-    scanf("%s", AC.ss);
-    printf("%d\n", AC.ac_query());
-
+	int i, j, k, u, n, m, cnt;
+	while (scanf("%d", &N) != EOF)
+	{
+		AC.init();
+		for (i = 1; i <= N; i++)
+		{
+			scanf("%s", AC.ss);
+			AC.ac_insert(i);
+		}
+		AC.ac_buildfail_bfs();
+		scanf("%d", &N);
+		cnt = 0;
+		for (i = 1; i <= N; i++)
+		{
+			scanf("%s", AC.ss);
+			AC.ac_query();
+			if (AC.top > 0)
+			{
+				sort(AC.stack + 1, AC.stack + 1 + AC.top);
+				printf("web %d: ", i);
+				for (j = 1; j <= AC.top; j++)
+				{
+					if (j != 1)
+						putchar(' ');
+					printf("%d", AC.stack[j]);
+				}
+				putchar('\n');
+				cnt++;
+			}
+		}
+		printf("total: %d\n", cnt);
+	}
 	return 0;
 }
