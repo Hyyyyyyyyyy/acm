@@ -5,7 +5,7 @@ using namespace std;
 const int maxn = 10000;
 char former[maxn], latter[maxn];
 int Next[maxn];
-void GETnext()
+void GETnext()      //有优化
 {
     int i, j, k;
     int L = strlen(former);
@@ -18,16 +18,19 @@ void GETnext()
         {
             i++;
             j++;
+            //优化
             if (former[i] == former[j])
                 Next[i] = Next[j];
             else
                 Next[i] = j;
+            //如果不要优化，这样：
+            //Next[i] = j;
         }
         else
             j = Next[j];
     }
 }
-int KMP()
+int KMP()       //返回目标串在主串中出现的次数
 {
     int i, j;
     GETnext();
