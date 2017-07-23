@@ -6,8 +6,8 @@
 #include <queue>
 using namespace std;
 const int INF = 2147483640;
-const int maxn = 100010;
-const int maxm = 400010;
+const int maxn = 90005;
+const int maxm = 4000005;
 struct ISAP
 {
     struct Edge
@@ -70,7 +70,7 @@ struct ISAP
             }
         }
     }
-    int isap()
+    int max_flow()
     {
         int i, j;
         bfs();
@@ -141,4 +141,4 @@ struct ISAP
     }
 };
 ISAP isap;
-//注意要给 isap.start  isap.end   isap.N(包括源点和汇点)  赋值！和初始化init()
+//注意要给 isap.start  isap.end  isap.N(包括源点和汇点) 赋值！和 初始化isap.init()
