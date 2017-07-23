@@ -142,3 +142,4 @@ struct ISAP
 };
 ISAP isap;
 //注意要给 isap.start  isap.end  isap.N(包括源点和汇点) 赋值！和 初始化isap.init()
+//双向边直接addedge两次就行了
