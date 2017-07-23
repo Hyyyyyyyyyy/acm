@@ -5,9 +5,9 @@
 #include <vector>
 #include <queue>
 using namespace std;
-const int maxn = 30;
+const int maxn = 1010;
 const int maxm = 1010;
-const int INF = 1e10;
+const int INF = 2147483640;
 struct DINIC
 {
 	struct Edge
