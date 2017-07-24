@@ -1,127 +1,87 @@
 #include <cstdio>
+#include <iostream>
 #include <cstring>
-#include <cmath>
-#include <queue>
 #include <algorithm>
-#include <cctype>
-#include <vector>
-#include <map>
-#include <set>
+#include <stack>
+#include <string>
 using namespace std;
-typedef long long ll;
-const double eps = 1e-8;
-const int maxn = 1000 + 100;
-int N, M;
-char former[maxn], latter[maxn];
-int exnext[maxn], extend[maxn];
-void GETexnext()
+
+struct point
 {
-    int i, j, k;
-    int L = strlen(former);
-    exnext[0] = L;
-    i = 1;
-    j = 0;
-    while (former[i + j] == former[j] && i + j < L)
-        j++;
-    exnext[1] = j;
-    k = 1;
-    for (i = 2; i < L; i++)
-    {
-        int p = k + exnext[k] - 1;
-        int l = exnext[i - k];
-        if (i + l < p + 1)
-        {
-            exnext[i] = l;
-        }
-        else
-        {
-            j = max(0, p - i + 1);
-            while (i + j < L && former[j] == former[i + j])
-                j++;
-            exnext[i] = j;
-            k = i;
-        }
-    }
-}
-void GETextend()
-{
-    int i, j, k;
-    int L1 = strlen(former);
-    int L2 = strlen(latter);
-    GETexnext();
-    i = 0;
-    j = 0;
-    while (j < L1 && j < L2 && former[j] == latter[j])
-        j++;
-    extend[0] = j;
-    k = 0;
-    for (i = 1; i < L2; i++)
-    {
-        int p = extend[k] + k - 1;
-        int l = exnext[i - k];
-        if (i + l < p + 1)
-        {
-            extend[i] = l;
-        }
-        else
-        {
-            j = max(0, p - i + 1);
-            while (j < L1 && i + j < L2 && former[j] == latter[i + j])
-                j++;
-            extend[i] = j;
-            k = i;
-        }
-    }
-}
-struct Node
-{
-    char s[1010];
-    int w;
+    int x,y;
 };
-Node node[1010];
-int main()
+struct vec
 {
-    int i, j, k, u, n, m, a, b;
-    while(scanf("%d", &n) != EOF)
+    int x,y;
+};
+bool intersect(point v1,point v2,point v3,point v4)
+{
+    int d = (v4.y-v3.y)*(v2.x-v1.x)-(v4.x-v3.x)*(v2.y-v1.y);
+    int u = (v4.x-v3.x)*(v1.y-v3.y)-(v4.y-v3.y)*(v1.x-v3.x);
+    int v = (v2.x-v1.x)*(v1.y-v3.y)-(v2.y-v1.y)*(v1.x-v3.x);
+    if(d<0)
     {
-        scanf("%d", &N);
-        for(i = 1; i <= N; i++)
+        u*=-1; d*=-1; v*=-1;
+    }
+    return (0<=u && u<=d)&&(0<=v && v<=d);
+}
+int cross(vec v1,vec v2)
+{
+    return (v1.x*v2.y -v1.y*v2.x);
+}
+vec setvec(point f,point t)
+{
+    vec temp={t.x-f.x,t.y-f.y};
+    return temp;
+}
+bool leftside(point f,point t,point p)
+{
+    vec ft={t.x-f.x,t.y-f.y};
+    vec fp={p.x-f.x,p.y-f.y};
+    return (cross(ft,fp)<0);
+}
+int main(int argc, char const *argv[])
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        point tra[2][3];
+        for(int i=0;i<3;++i)
+            scanf("%d%d",&tra[0][i].x,&tra[0][i].y);
+        for(int i=0;i<3;++i) 
+            scanf("%d%d",&tra[1][i].x,&tra[1][i].y);
+        bool not_intersect=1;
+        for(int i=0;i<3 && not_intersect;++i)
+            for(int j=0;j<3 && not_intersect;++j)
+                if(intersect(tra[0][i],tra[0][(i+1)%3],tra[1][j],tra[1][(j+1)%3]))
+                    not_intersect=0;
+        if(!not_intersect)
         {
-            scanf("%s %d", node[i].s, &node[i].w);
+            printf("intersect\n");
+            continue;
         }
-        scanf("%d", &M);
-        for(i = 1; i <= M; i++)
+        bool inside[2]={1,1};
+        for (int i = 0; i < 2; ++i)
         {
-            scanf("%d", &a);
-            if(a == 2)
+            if(leftside(tra[i][0],tra[i][1],tra[i][2]))
             {
-                scanf("%d", &b);
-                int res = 0;
-                for(j = 1; j <= N; j++)
-                {
-                    if(node[j].w > node[b].w)
-                        continue;
-                    if(j == b)
-                    {
-                        res++;
-                        continue;
-                    }
-                    strcpy(former, node[b].s);
-                    strcpy(latter, node[j].s);
-                    GETextend();
-                    int L1 = strlen(former);
-                    int L2 = strlen(latter);
-                    if(extend[L2-L1] == L1)
-                        res++;
-                }
-                printf("%d\n", res);
+                for(int j=0;j<3;++j)
+                    for(int k=0;k<3;++k)
+                        if(!leftside(tra[i][j],tra[i][(j+1)%3],tra[!i][k]))
+                            inside[i]=0;
             }
             else
             {
-                scanf("%d %d", &a, &b);
-                node[a].w = b;
+                for(int j=2;j>=0;--j)
+                    for(int k=0;k<3;++k)
+                        if(!leftside(tra[i][j],tra[i][(j+2)%3],tra[!i][k]))
+                            inside[i]=0;           
             }
         }
-    }
-    return 0;
+        if(inside[0] || inside[1])
+            printf("contain\n");
+        else 
+            printf("disjoint\n");
+    }  
 }
