@@ -10,7 +10,7 @@ typedef long long ll;
 const int INF = 2147483640;
 const int maxn = 10000;
 const int maxm = 200000;
-struct ZKW
+struct COST_SPFA
 {
     struct Edge
     {
@@ -110,7 +110,7 @@ struct ZKW
         return flow;
     }
 };
-ZKW zkw;
+COST_SPFA zkw;
 //别忘了改maxn，maxm
 //别忘了给 zkw.start, zkw.end, zkw.N 赋值 和 zkw.init() 初始化
 //zkw.N为节点总个数，编号0~N-1
