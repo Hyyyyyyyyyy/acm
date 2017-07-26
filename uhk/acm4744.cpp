@@ -1,75 +1,91 @@
-
 #include <cstdio>
 #include <queue>
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <cmath>
-#define mul(a) (a)*(a)
 using namespace std;
-const int Maxn = 210;
-const int Maxm = 100010;
-const int inf = 0x3f3f3f3f;
-struct ZKW_flow
+const int maxn = 210;
+const int maxm = 100010;
+const int INF = 0x3f3f3f3f;
+struct ZKW
 {
-    int st, ed, ecnt, n;
-    int head[Maxn];
-    int cap[Maxm], cost[Maxm], to[Maxm], next[Maxm];
+    int start, end;
+    int N;
+    int mincost;
+    int maxflow;
+    int tol;
+    int head[maxn];
+    int cap[maxm], cost[maxm], to[maxm], next[maxm];
+    int dist[maxn];
+    int visit[maxn];
     void init()
     {
         memset(head, -1, sizeof(head));
-        ecnt = 2;
+        tol = 0;
+        mincost = maxflow = 0;
     }
-    void AddEdge(int u, int v, int cc, int ww)
+    void addedge(int u, int v, int capp, int costt)
     {
-        cap[ecnt] = cc; cost[ecnt] = ww; to[ecnt] = v;
-        next[ecnt] = head[u]; head[u] = ecnt++;
-        cap[ecnt] = 0; cost[ecnt] = -ww; to[ecnt] = u;
-        next[ecnt] = head[v]; head[v] = ecnt++;
+        to[tol] = v;
+        cap[tol] = capp; 
+        cost[tol] = costt;
+        next[tol] = head[u];
+        head[u] = tol++;
+        to[tol] = u;
+        cap[tol] = 0;
+        cost[tol] = -costt;
+        next[tol] = head[v];
+        head[v] = tol++;
     }
-    int dis[Maxn];
     void SPFA()
     {
-        for(int i = 0; i <= n; ++i) dis[i] = inf;
+        for(int i = 0; i <= N; ++i) 
+            dist[i] = INF;
         priority_queue<pair<int, int> > Q;
-        dis[st] = 0;
-        Q.push(make_pair(0, st));
-        while(!Q.empty()){
-            int u = Q.top().second, d = -Q.top().first;
+        dist[start] = 0;
+        Q.push(make_pair(0, start));
+        while(!Q.empty())
+        {
+            int u = Q.top().second;
+            int d = -Q.top().first;
             Q.pop();
-            if(dis[u] != d) continue;
-            for(int p = head[u]; p!=-1; p = next[p]){
+            if(dist[u] != d) 
+                continue;
+            for(int p = head[u]; p != -1; p = next[p])
+            {
                 int &v = to[p];
-                if(cap[p] && dis[v] > d + cost[p]){
-                    dis[v] = d + cost[p];
-                    Q.push(make_pair(-dis[v], v));
+                if(cap[p] && dist[v] > d + cost[p])
+                {
+                    dist[v] = d + cost[p];
+                    Q.push(make_pair(-dist[v], v));
                 }
             }
         }
-        for(int i = 0; i <= n; ++i) dis[i] = dis[ed] - dis[i];
+        for(int i = 0; i <= N; ++i) 
+            dist[i] = dist[end] - dist[i];
     }
-    int minCost, maxFlow;
-    bool use[Maxn];
     int add_flow(int u, int flow)
     {
-        if(u == ed)
+        if(u == end)
         {
-            maxFlow += flow;
-            minCost += dis[st] * flow;
+            maxflow += flow;
+            mincost += dist[start] * flow;
             return flow;
         }
-        use[u] = true;
+        visit[u] = true;
         int now = flow;
-        for(int p = head[u]; p!=-1; p = next[p])
+        for(int p = head[u]; p != -1; p = next[p])
         {
             int &v = to[p];
-            if(cap[p] && !use[v] && dis[u] == dis[v] + cost[p])
+            if(cap[p] && !visit[v] && dist[u] == dist[v] + cost[p])
             {
                 int tmp = add_flow(v, min(now, cap[p]));
                 cap[p] -= tmp;
-                cap[p^1] += tmp;
+                cap[p ^ 1] += tmp;
                 now -= tmp;
-                if(!now) break;
+                if(!now) 
+                    break;
             }
         }
         return flow - now;
@@ -77,40 +93,48 @@ struct ZKW_flow
 
     bool modify_label()
     {
-        int d = inf;
-        for(int u = 0; u <= n; ++u) if(use[u])
-            for(int p = head[u]; p!=-1; p = next[p])
-            {
-                int &v = to[p];
-                if(cap[p] && !use[v]) d = min(d, dis[v] + cost[p] - dis[u]);
-            }
-        if(d == inf) return false;
-        for(int i = 0; i <= n; ++i) if(use[i]) dis[i] += d;
+        int d = INF;
+        for(int u = 0; u <= N; ++u) 
+            if(visit[u])
+                for(int p = head[u]; p != -1; p = next[p])
+                {
+                    int &v = to[p];
+                    if(cap[p] && !visit[v]) 
+                        d = min(d, dist[v] + cost[p] - dist[u]);
+                }
+        if(d == INF) 
+            return false;
+        for(int i = 0; i <= N; ++i) 
+            if(visit[i]) 
+                dist[i] += d;
         return true;
     }
 
-    int ZKW(int ss, int tt, int nn)
+    int minCostMaxFlow()
     {
-        st = ss, ed = tt, n = nn;
-        minCost = maxFlow = 0;
         SPFA();
         while(true)
         {
             while(true)
             {
-                for(int i = 0; i <= n; ++i) use[i] = 0;
-                if(!add_flow(st, inf)) break;
+                for(int i = 0; i <= N; ++i) 
+                    visit[i] = 0;
+                if(!add_flow(start, INF)) 
+                    break;
             }
-            if(!modify_label()) break;
+            if(!modify_label()) 
+                break;
         }
-        return minCost;
+        return mincost;
     }
-} G;
+};
+ZKW zkw;
 struct Point
 {
     int x , y , z;
     int w;
-}P[Maxn];
+}P[maxn];
+#define mul(a) (a)*(a)
 int dis(Point A , Point B)
 {
     return (int) sqrt(1.0 * mul(A.x - B.x) + 1.0 * mul(A.y - B.y) + 1.0 * mul(A.z - B.z));
@@ -120,27 +144,30 @@ int main()
     int N;
     while(scanf("%d",&N)!=EOF && N)
     {
-        G.init();
+        zkw.init();
         int sum = 0;
         for(int i=1;i<=N;i++)
         {
             scanf("%d%d%d%d",&P[i].x , &P[i].y , &P[i].z , &P[i].w);
             sum += P[i].w;
         }
+        zkw.start = 0;
+        zkw.end = 2 * N + 1;
+        zkw.N = 2 * N + 2;
         int s = 0 , t = 2 * N + 1;
         for(int i=1;i<=N;i++)
         {
-            G.AddEdge(s , i ,  P[i].w , 0);
-            G.AddEdge(N + i , t , P[i].w , 0);
+            zkw.addedge(s , i ,  P[i].w , 0);
+            zkw.addedge(N + i , t , P[i].w , 0);
             for(int j=i+1;j<=N;j++)
             {
                 int  d = dis(P[i] , P[j]);
-                G.AddEdge(i , N + j , inf , d);
-                G.AddEdge(j , N + i , inf , d);
+                zkw.addedge(i , N + j , INF , d);
+                zkw.addedge(j , N + i , INF , d);
             }
         }
-        int ans = G.ZKW(s , t , t + 1);
-        if(G.maxFlow != sum) printf("-1\n");
+        int ans = zkw.minCostMaxFlow();
+        if(zkw.maxflow != sum) printf("-1\n");
         else printf("%d\n",ans);
     }
     return 0;
