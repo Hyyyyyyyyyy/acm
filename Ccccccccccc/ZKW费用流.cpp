@@ -25,17 +25,14 @@ struct ZKW
     int N;               //节点总个数，节点编号0~N-1
     int maxflow;
     int mincost;
-    int D1;
     int start, end;
     int head[maxn];
-    int visit[maxn];
+    bool visit[maxn];
     int dist[maxn];
-    
     void init()
     {
-        memset(head, -1, sizeof head);
+        memset(head, -1, sizeof(head));
         tol = 0;
-        mincost = D1 = 0;
     }
     void addedge(int u, int v, int cap, int cost)
     {
@@ -52,80 +49,96 @@ struct ZKW
         edge[tol].next = head[v];
         head[v] = tol++;
     }
-    int aug(int u, int f)
+    void SPFA()
     {
-        if (u == end)
-        {
-            mincost += D1 * f;
-            maxflow += f;
-            return f;
-        }
-        visit[u] = 1;
-        int tmp = f;
-        for (int i = head[u]; i != -1; i = edge[i].next)
-        {
-            int v = edge[i].to;
-            if (edge[i].cap > edge[i].flow && edge[i].cost == 0 && !visit[v])
-            {
-                int d = aug(v, tmp < edge[i].cap - edge[i].flow ? tmp : edge[i].cap - edge[i].flow);
-                edge[i].flow += d;
-                edge[i ^ 1].flow -= d;
-                tmp -= d;
-                if (!tmp) return f;
-            }
-        }
-        return f - tmp;
-    }
-    bool modLabel()
-    {
-        for (int i = 0; i <= N; i++)
+        for(int i = 0; i <= N; ++i) 
             dist[i] = INF;
-        dist[end] = 0;
-        deque<int> q;
-        q.push_back(end);
-        while (!q.empty())
+        priority_queue<pair<int, int> > Q;
+        dist[start] = 0;
+        Q.push(make_pair(0, start));
+        while(!Q.empty())
         {
-            int dt;
-            int u = q.front();
-            q.pop_front();
-            for (int i = head[u]; i != -1; i = edge[i].next)
+            int u = Q.top().second;
+            int d = -Q.top().first;
+            Q.pop();
+            if(dist[u] != d) 
+                continue;
+            for(int p = head[u]; p != -1; p = edge[p].next)
             {
-                int v = edge[i].to;
-                if (edge[i ^ 1].cap > edge[i ^ 1].flow && (dt = dist[u] - edge[i].cost) < dist[v])
+                int &v = edge[p].to;
+                if(edge[p].cap && dist[v] > d + edge[p].cost)
                 {
-                    dist[v] = dt;
-                    int tmp = INF;
-                    if (q.size() > 0)
-                        tmp = dist[q.front()];
-                    if (dt <= tmp)
-                        q.push_front(v);
-                    else
-                        q.push_back(v);
+                    dist[v] = d + edge[p].cost;
+                    Q.push(make_pair(-dist[v], v));
                 }
             }
         }
-        for (int i = 0; i <= end; ++i)
+        for(int i = 0; i <= N; ++i) 
+            dist[i] = dist[end] - dist[i];
+    }
+
+    int add_flow(int u, int flow)
+    {
+        if(u == end)
         {
-            for (int j = head[i]; j != -1; j = edge[j].next)
+            maxflow += flow;
+            mincost += dist[start] * flow;
+            return flow;
+        }
+        visit[u] = true;
+        int now = flow;
+        for(int p = head[u]; p != -1; p = edge[p].next)
+        {
+            int &v = edge[p].to;
+            if(edge[p].cap && !visit[v] && dist[u] == dist[v] + edge[p].cost)
             {
-                int v = edge[j].to;
-                edge[j].cost += dist[v] - dist[i];
+                int tmp = add_flow(v, min(now, edge[p].cap));
+                edge[p].cap -= tmp;
+                edge[p ^ 1].cap += tmp;
+                now -= tmp;
+                if(!now) 
+                    break;
             }
         }
-        D1 += dist[start];
-        return dist[start] < INF;
+        return flow - now;
     }
-    //返回的是最大流，mincost存的是最小费用
+
+    bool modify_label()
+    {
+        int d = INF;
+        for(int u = 0; u <= N; ++u) 
+            if(visit[u])
+                for(int p = head[u]; p != -1; p = edge[p].next)
+                {
+                    int &v = edge[p].to;
+                    if(edge[p].cap && !visit[v]) 
+                        d = min(d, dist[v] + edge[p].cost - dist[u]);
+                }
+        if(d == INF) 
+            return false;
+        for(int i = 0; i <= N; ++i) 
+            if(visit[i]) 
+                dist[i] += d;
+        return true;
+    }
+
     int minCostMaxFlow()
     {
-        maxflow = 0;
-        while (modLabel())
+        mincost = maxflow = 0;
+        SPFA();
+        while(true)
         {
-            do
-                memset(visit, 0, sizeof(visit));
-            while (aug(start, INF));
+            while(true)
+            {
+                for(int i = 0; i <= N; ++i) 
+                    visit[i] = 0;
+                if(!add_flow(start, INF))
+                    break;
+            }
+            if(!modify_label()) 
+                break;
         }
-        return maxflow;
+        return mincost;
     }
 };
 ZKW zkw;
@@ -133,3 +146,4 @@ ZKW zkw;
 //别忘了给 zkw.start, zkw.end, zkw.N 赋值 和 zkw.init() 初始化
 //zkw.N为节点总个数，编号0~N-1
 //cost为单位流量，单价为1m/元的路程花费（即为距离）
+//minCostMaxFlow()返回的是最小费用，maxflow是最大流
