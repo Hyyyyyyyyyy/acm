@@ -12,24 +12,25 @@ const int maxn = 10000;
 const int maxm = 200000;
 struct ZKW
 {
-    int mincost, D1;
-    int start, end;
     struct Edge
     {
         int to;
         int next;
-        int cap;
-        int cost;
-        int flow;
+        int cap;        //该边的最大流量
+        int flow;       //该边的流量
+        int cost;       //单位流量，单价为1m/元的路程花费（即距离）
     };
     Edge edge[maxm];
     int tol;
-    int N;
+    int N;               //节点总个数，节点编号0~N-1
+    int maxflow;
+    int mincost;
+    int D1;
+    int start, end;
     int head[maxn];
     int visit[maxn];
     int dist[maxn];
-    int maxflow;
-
+    
     void init()
     {
         memset(head, -1, sizeof head);
@@ -114,6 +115,7 @@ struct ZKW
         D1 += dist[start];
         return dist[start] < INF;
     }
+    //返回的是最大流，mincost存的是最小费用
     int minCostMaxFlow()
     {
         maxflow = 0;
@@ -127,3 +129,7 @@ struct ZKW
     }
 };
 ZKW zkw;
+//别忘了改maxn，maxm
+//别忘了给 zkw.start, zkw.end, zkw.N 赋值 和 zkw.init() 初始化
+//zkw.N为节点总个数，编号0~N-1
+//cost为单位流量，单价为1m/元的路程花费（即为距离）
