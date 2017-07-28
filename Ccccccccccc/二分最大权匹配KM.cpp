@@ -16,7 +16,7 @@ struct KM
     int link[maxn2];
     int lx[maxn1], ly[maxn2];       //对另一边点的最大要求值
     int visitx[maxn1], visity[maxn2];       //在一次增广中是否被增广到
-    int slack[maxn2];
+    int slack[maxn2];               //右点还差多少就能满足左点的要求
     void init()
     {
         memset(g, 0, sizeof(g));
