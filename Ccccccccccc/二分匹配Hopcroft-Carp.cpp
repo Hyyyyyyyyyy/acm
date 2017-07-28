@@ -8,15 +8,16 @@
 using namespace std;
 const int INF = 2147483640;
 typedef long long ll;
-const int maxn = 3000;
+const int maxn1 = 3000;
+const int maxn2 = 3000;
 struct HC
 {
-    vector<int>G[maxn];
+    vector<int>G[maxn1];
     int uN;
-    int Mx[maxn], My[maxn];
-    int dx[maxn], dy[maxn];
+    int Mx[maxn1], My[maxn2];
+    int dx[maxn1], dy[maxn2];
     int dist;
-    bool visit[maxn];
+    bool visit[maxn2];
     void init()
     {
         for(int i = 0; i <= uN; i++)
