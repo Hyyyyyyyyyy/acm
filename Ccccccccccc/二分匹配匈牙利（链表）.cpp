@@ -9,7 +9,7 @@ using namespace std;
 const int INF = 2147483640;
 typedef long long ll;
 const int maxn = 5010;
-const int maxm = 50010
+const int maxm = 50010;
 struct HUNGARY
 {
     struct Edge
