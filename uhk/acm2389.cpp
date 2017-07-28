@@ -105,45 +105,50 @@ struct HC
 	}
 };
 HC hop;
-//要先给uN赋值
-//初始化hop.init()
-struct Node
+
+struct Point
 {
-	int x;
-	int y;
-	int speed;
+    int x,y,s;
+    void input1()
+    {
+        scanf("%d%d%d",&x,&y,&s);
+    }
+    void input2()
+    {
+        scanf("%d%d",&x,&y);
+    }
 };
-Node P[maxn], U[maxn];
-int T, N, M;
+int dis2(Point a,Point b)
+{
+    return (a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y);
+}
+Point p1[maxn],p2[maxn];
+
 int main()
 {
-	int i, j, k, u, n, m;
-	while (scanf("%d", &n) != EOF)
-	{
-		for (m = 1; m <= n; m++)
-		{
-			hop.init();
-			scanf("%d %d", &T, &N);
-			hop.uN = N;
-			for (i = 1; i <= N; i++)
-			{
-				scanf("%d %d %d", &P[i].x, &P[i].y, &P[i].speed);
-			}
-			scanf("%d", &M);
-			for (i = 1; i <= M; i++)
-			{
-				scanf("%d %d", &U[i].x, &U[i].y);
-				for (j = 1; j <= N; j++)
-				{
-					int t = (P[j].x - U[i].x) * (P[j].x - U[i].x) + (P[j].y - U[i].y) * (P[j].y - U[i].y);
-					if (T*P[j].speed*T*P[j].speed >= t)
-					{
-						hop.addedge(j, i);
-					}
-				}
-			}
-			printf("Scenario #%d:\n%d\n\n", m, hop.MaxMatch());
-		}
-	}
-	return 0;
+    int T;
+    int t;
+    int iCase = 0;
+    int n,m;
+    scanf("%d",&T);
+    while(T--)
+    {
+        iCase++;
+        scanf("%d",&t);
+        scanf("%d",&n);
+        for(int i = 1;i <= n;i++)
+            p1[i].input1();
+        scanf("%d",&m);
+        for(int i = 1;i <= m;i++)
+            p2[i].input2();
+        hop.init();
+        hop.uN = n;
+        for(int i = 1;i <= n;i++)
+            for(int j = 1;j <= m;j++)
+                if(dis2(p1[i],p2[j]) <= p1[i].s*p1[i].s*t*t)
+                    hop.addedge(i, j);
+        printf("Scenario #%d:\n",iCase);
+        printf("%d\n\n",hop.MaxMatch());
+    }
+    return 0;
 }
