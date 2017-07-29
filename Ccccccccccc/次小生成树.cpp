@@ -69,3 +69,5 @@ struct S_PRIME
 S_PRIME prime;
 //prime.N;
 //prime.cost[][]
+//Max[i][j]表示MST中i到j的最大边权
+//求完后，直接枚举所有不在MST中的边，替换掉最大边权的边，输出最优答案
