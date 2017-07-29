@@ -140,7 +140,7 @@ int main()
 					swap(hop.Mx[i], hop.Mx[j]);
 				}
 			}
-			// if (res / 2 > 1000)
+			// if (res > 1000)
 			// {
 			// 	printf("-1\n");
 			// 	continue;
