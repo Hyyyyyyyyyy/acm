@@ -43,7 +43,7 @@ struct TARJAN
         edge[tol].next = head[u];
         head[u] = tol++;
     }
-    void Tarjan(int u)      //将一个环缩成一个点
+    void Tarjan(int u)      //将一个环缩成一个点, 多个环相连只算一个环
     {
         int v;
         Low[u] = DFN[u] = ++Index;
