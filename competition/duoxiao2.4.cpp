@@ -39,7 +39,6 @@ ll Extend_Euclid(ll a, ll b, ll&x, ll& y)
 	return d;
 }
 
-//a??n??????,?????-1
 ll inv(ll a, ll n)
 {
 	ll x, y;
