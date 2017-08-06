@@ -22,6 +22,126 @@ int gcd(int a,int b)
 
 
 
+ll Extend_Euclid(ll a, ll b, ll&x, ll& y)
+{
+	if (b == 0)
+	{
+		x = 1, y = 0;
+		return a;
+	}
+	ll d = Extend_Euclid(b, a%b, x, y);
+	ll t = x;
+	x = y;
+	y = t - a / b*y;
+	return d;
+}
+
+//a在模n乘法下的逆元，没有则返回-1
+ll inv(ll a, ll n)
+{
+	ll x, y;
+	ll t = Extend_Euclid(a, n, x, y);
+	if (t != 1)
+		return -1;
+	return (x%n + n) % n;
+}
+
+
+
+
+
+//费马定理
+//a在模n乘法下的逆元
+long long MUL(long long a, long long b, long long mod)
+{
+	long long res = 1;
+	while (b)
+	{
+		if (b & 1)
+		{
+			res = (res * a) % mod;
+		}
+		a = (a * a) % mod;
+		b >>= 1;
+	}
+	return res;
+}
+long long inv(long long a, long long n)
+{
+	return MUL(a, n-2, n);
+}
+
+
+
+
+
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+using namespace std;
+typedef long long ll;
+const int INF = 2147483640;
+const int maxn = 10000000;
+bool check[maxn + 10];
+int prime[maxn + 10];
+int phi[maxn + 10];
+int tot;
+void phi_and_prime_table(int N)
+{
+    memset(check, false, sizeof(check));
+    phi[1] = 1;
+    tot = 0;
+    for(int i = 2; i <= N; i++)
+    {
+        if(!check[i])
+        {
+            prime[tot++] = i;
+            phi[i] = i - 1;
+        }
+        for(int j = 0; j < tot; j++)
+        {
+            if(i * prime[j] > N)
+                break;
+            check[i * prime[j]] = true;
+            if(i % prime[j] == 0)
+            {
+                phi[i * prime[j]] = phi[i] * prime[j];
+                break;
+            }
+            else
+            {
+                phi[i * prime[j]] = phi[i] * (prime[j] - 1);
+            }
+        }
+    }
+}
+//质数个数 < tot
+//欧拉定理 a在模n乘法下的逆元，n不用是质数
+long long inv(long long a, long long n)
+{
+	return MUL(a, (long long)phi[n]-1, n);
+}
+
+
+
+
+
+
+//逆元表1~n范围模p(奇质数)乘法下的逆元 o(n)
+long long inv[maxn];
+void inverse(long long n, long long p) 
+{
+    inv[1] = 1;  
+    for (long long i = 2; i <= n; ++i)
+	{
+        inv[i] = (p - p / i) * inv[p % i] % p;  
+    }
+}
+
+
+
 
 //扩展欧几里得
 ll exGcd(ll a, ll b, ll &x, ll &y)
