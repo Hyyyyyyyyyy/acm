@@ -53,6 +53,10 @@ int main()
 						ar[j].sum += i;
 
 					}
+					else if(dp[j] == dp[j - cost[i]] + sco[i] && ar[j].sum > ar[j - cost[i]].sum && ar[j - cost[i]].sum > 0)
+					{
+						ar[j] = ar[j - cost[i]];
+					}
 				}
 			}
 			printf("Case #%d:\n", m);
@@ -74,6 +78,143 @@ int main()
 				printf("\n");
 			}
 		}
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <queue>
+#include <cmath>
+#include <map>
+#include <vector>
+#include <cctype>
+#include <set>
+using namespace std;
+const int INF = 2147483640;
+const double eps = 1e-7;
+typedef unsigned long long ll;
+const int maxn = 100000 + 10;
+struct mon
+{
+    int xue;
+    int fang;
+};
+mon ar[maxn];
+struct ji
+{
+    int jing;
+    int shang;
+    double x;
+};
+ji sa[1000+10];
+bool comp(const ji& a, const ji& b)
+{
+    return a.x > b.x;
+}
+int main()
+{
+    int i, j, k, u, n, m, a, b;
+    while(scanf("%d %d", &N, &M) != EOF)
+    {
+        for(i = 1; i <= N; i++)
+        {
+            scanf("%d %d", &ar[i].xue, ar[i].fang);
+        }
+        for(i = 1; i <= M; i++)
+        {
+            scanf("%d %d", &sa[i].jing, &sa[i].shang);
+            sa[i].x = (double)sa[i].shang / (double)sa[i].jing;
+        }
+        sort(sa+1, sa+1+M, comp);
+        for(i = 1; i <= N; i++)
+        {
+
+        }
+    }
+}
+
+
+
+
+
+
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <queue>
+#include <cmath>
+#include <map>
+#include <vector>
+#include <cctype>
+#include <set>
+using namespace std;
+const int INF = 2147483640;
+const double eps = 1e-7;
+typedef unsigned long long ll;
+const int maxn = 3000 + 10;
+int fa[maxn];
+int find(int x)
+{
+	if (fa[x] == x)
+		return x;
+	else
+		return fa[x] = find(fa[x]);
+}
+int ar[maxn][maxn];
+int main()
+{
+	int i, j, k, u, n, m, N, M, a, b, c;
+	while (scanf("%d %d", &N, &M) != EOF)
+	{
+		memset(ar, 0, sizeof(ar));
+		for (i = 1; i <= N; i++)
+		{
+			fa[i] = i;
+		}
+		int res = INF;
+		for (i = 1; i <= M; i++)
+		{
+			scanf("%d %d %d", &a, &b, &c);
+			int t1 = find(a);
+			int t2 = find(b);
+			if (t1 != t2)
+			{
+				fa[t2] = t1;
+			}
+			ar[t1][t2] += c;
+			ar[t2][t1] += c;
+		}
+		//int res = INF;
+		// for(i = 1; i <= N; i++)
+		// {
+		//     if(fa[i] != i)
+		//     {
+		//         int Min = INF;
+		//         for(j = 1; j <= N; j++)
+		//         {
+		//             if(ar[i][j])
+		//                 Min = min(Min, ar[i][j]);
+		//         }
+		//         res = min(res, Min);
+		//     }
+		// }
+        for(i = 1; i <= N; i++)
+            if(fa[i] == i)
+                break;
+        for(j = 1; j <= N; j++)
+			if(ar[i][j])
+            	res = min(ar[i][j], res);
+		printf("%d\n", res);
 	}
 	return 0;
 }
