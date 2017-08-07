@@ -53,9 +53,11 @@ int main()
 						ar[j].sum += i;
 
 					}
-					else if(dp[j] == dp[j - cost[i]] + sco[i] && ar[j].sum > ar[j - cost[i]].sum && ar[j - cost[i]].sum > 0)
+					else if(dp[j] == dp[j - cost[i]] + sco[i] && ar[j].sum > ar[j - cost[i]].sum + i)
 					{
 						ar[j] = ar[j - cost[i]];
+						ar[j].stack[++ar[j].top] = i;
+						ar[j].sum += i;
 					}
 				}
 			}
