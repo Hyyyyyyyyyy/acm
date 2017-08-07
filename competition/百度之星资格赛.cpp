@@ -102,121 +102,90 @@ int main()
 #include <cctype>
 #include <set>
 using namespace std;
-const int INF = 2147483640;
+typedef long long ll;
+const ll INF = 0x3f3f3f3f;
 const double eps = 1e-7;
-typedef unsigned long long ll;
 const int maxn = 100000 + 10;
 struct mon
 {
-    int xue;
-    int fang;
+	ll xue;
+	ll fang;
 };
 mon ar[maxn];
 struct ji
 {
-    int jing;
-    int shang;
-    double x;
+	ll jing;
+	ll shang;
 };
-ji sa[1000+10];
-bool comp(const ji& a, const ji& b)
+ji sa[1000 + 10];
+ll dp[15][1010];		//dp[i][j]是对于i的护甲造成j的伤害，最少需要花多少晶石
+ll min(ll a, ll b)
 {
-    return a.x > b.x;
-}
-int main()
-{
-    int i, j, k, u, n, m, a, b;
-    while(scanf("%d %d", &N, &M) != EOF)
-    {
-        for(i = 1; i <= N; i++)
-        {
-            scanf("%d %d", &ar[i].xue, ar[i].fang);
-        }
-        for(i = 1; i <= M; i++)
-        {
-            scanf("%d %d", &sa[i].jing, &sa[i].shang);
-            sa[i].x = (double)sa[i].shang / (double)sa[i].jing;
-        }
-        sort(sa+1, sa+1+M, comp);
-        for(i = 1; i <= N; i++)
-        {
-
-        }
-    }
-}
-
-
-
-
-
-
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include <queue>
-#include <cmath>
-#include <map>
-#include <vector>
-#include <cctype>
-#include <set>
-using namespace std;
-const int INF = 2147483640;
-const double eps = 1e-7;
-typedef unsigned long long ll;
-const int maxn = 3000 + 10;
-int fa[maxn];
-int find(int x)
-{
-	if (fa[x] == x)
-		return x;
+	if (a < b)
+		return a;
 	else
-		return fa[x] = find(fa[x]);
+		return b;
 }
-int ar[maxn][maxn];
 int main()
 {
-	int i, j, k, u, n, m, N, M, a, b, c;
-	while (scanf("%d %d", &N, &M) != EOF)
+	ll i, j, k, u, n, m, a, b, maxxue, maxshang, maxjia, N, M;
+	while (scanf("%lld %lld", &N, &M) != EOF)
 	{
-		memset(ar, 0, sizeof(ar));
+		maxxue = -INF;
+		maxshang = -INF;
+		maxjia = -INF;
 		for (i = 1; i <= N; i++)
 		{
-			fa[i] = i;
+			scanf("%lld %lld", &ar[i].xue, &ar[i].fang);
+			maxxue = max(maxxue, ar[i].xue);
+			maxjia = max(maxjia, ar[i].fang);
 		}
-		int res = INF;
 		for (i = 1; i <= M; i++)
 		{
-			scanf("%d %d %d", &a, &b, &c);
-			int t1 = find(a);
-			int t2 = find(b);
-			if (t1 != t2)
-			{
-				fa[t2] = t1;
-			}
-			ar[t1][t2] += c;
-			ar[t2][t1] += c;
+			scanf("%lld %lld", &sa[i].jing, &sa[i].shang);
+			maxshang = max(maxshang, sa[i].shang);
 		}
-		//int res = INF;
-		// for(i = 1; i <= N; i++)
-		// {
-		//     if(fa[i] != i)
-		//     {
-		//         int Min = INF;
-		//         for(j = 1; j <= N; j++)
-		//         {
-		//             if(ar[i][j])
-		//                 Min = min(Min, ar[i][j]);
-		//         }
-		//         res = min(res, Min);
-		//     }
-		// }
-        for(i = 1; i <= N; i++)
-            if(fa[i] == i)
-                break;
-        for(j = 1; j <= N; j++)
-			if(ar[i][j])
-            	res = min(ar[i][j], res);
-		printf("%d\n", res);
+		if (maxjia >= maxshang)
+		{
+			printf("-1\n");
+			continue;
+		}
+		for (i = 0; i <= 10; i++)
+		{
+			for (j = 0; j <= maxxue; j++)
+			{
+				dp[i][j] = INF;
+			}
+		}
+		for (i = 0; i <= 10; i++)
+		{
+			for (j = 1; j <= maxxue; j++)
+			{
+				for (k = 1; k <= M; k++)
+				{
+					if (sa[k].shang - i >= j)
+					{
+						dp[i][j] = min(dp[i][j], sa[k].jing);
+					}
+					else if (sa[k].shang - i > 0)
+					{
+						dp[i][j] = min(dp[i][j], dp[i][j - (sa[k].shang - i)] + sa[k].jing);
+					}
+				}
+			}
+		}
+		ll res = 0;
+		for (i = 1; i <= N; i++)
+		{
+			res += dp[ar[i].fang][ar[i].xue];
+		}
+		printf("%lld\n", res);
 	}
 	return 0;
 }
+
+
+
+
+
+
