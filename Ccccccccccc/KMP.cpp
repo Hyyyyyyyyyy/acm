@@ -41,18 +41,15 @@ int KMP()       //返回目标串在主串中出现的次数
     int res = 0;
     while(i < L2)
     {
-        if(j == -1 || latter[i] == former[j])
-        {
-            if(j == L1-1)
-            {
-                res++;
-                j = -1;
-            }
-            i++;
-            j++;
-        }
-        else
+        while(-1 != j && latter[i] != former[j])
             j = Next[j];
+        i++;
+        j++;
+        if(j >= L1)
+        {
+            res++;
+            j = Next[j];
+        }
     }
     return res;
 }
