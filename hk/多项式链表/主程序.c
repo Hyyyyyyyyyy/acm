@@ -113,7 +113,7 @@ int main()
 				break;
 			}
 			default:
-				break;
+				printf("Please input number 0~6\n");
 		}
 	}
 	return 0;
