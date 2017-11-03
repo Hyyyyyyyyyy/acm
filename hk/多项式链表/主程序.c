@@ -1,7 +1,7 @@
 #include "Link.h"
 int main()
 {
-	freopen("IN4.txt", "r", stdin);
+	//freopen("IN4.txt", "r", stdin);
 	Polyn polyn[maxn];
 	Polyn TempPolyn;
 	int LenPolyns;
@@ -41,6 +41,11 @@ int main()
 			{
 				printf("Which polyn do you want?\n");
 				scanf("%d", &i);
+				if (i >= maxn - 5)
+				{
+					printf("Sorry. Runtime error\n");
+					break;
+				}
 				if (polyn[i].root)
 					PrintPolyn(polyn[i].root);
 				else
@@ -51,6 +56,11 @@ int main()
 			{
 				printf("What are the polyns do you want to add?\n");
 				scanf("%d %d", &i, &j);
+				if (i >= maxn - 5 || j >= maxn-5)
+				{
+					printf("Sorry. Runtime error\n");
+					break;
+				}
 				if (TempPolyn.root = AddPolyn(polyn[i].root, polyn[j].root))
 					PrintPolyn(TempPolyn.root);
 				else
@@ -61,6 +71,11 @@ int main()
 			{
 				printf("What are the polyns do you want to subtract?\n");
 				scanf("%d %d", &i, &j);
+				if (i >= maxn - 5 || j >= maxn - 5)
+				{
+					printf("Sorry. Runtime error\n");
+					break;
+				}
 				if (TempPolyn.root = SubtractPolyn(polyn[i].root, polyn[j].root))
 					PrintPolyn(TempPolyn.root);
 				else
@@ -71,6 +86,11 @@ int main()
 			{
 				printf("What are the polyns do you want to multify?\n");
 				scanf("%d %d", &i, &j);
+				if (i >= maxn - 5 || j >= maxn - 5)
+				{
+					printf("Sorry. Runtime error\n");
+					break;
+				}
 				if (TempPolyn.root = MultiplyPolyn(polyn[i].root, polyn[j].root))
 					PrintPolyn(TempPolyn.root);
 				else
@@ -81,6 +101,11 @@ int main()
 			{
 				printf("Which polyn do you want to opposite?\n");
 				scanf("%d", &i);
+				if (i >= maxn - 5)
+				{
+					printf("Sorry. Runtime error\n");
+					break;
+				}
 				if (Opposite(polyn[i].root))
 					PrintPolyn(polyn[i].root);
 				else
