@@ -1,7 +1,7 @@
 #include "Link.h"
 int main()
 {
-	freopen("IN.txt", "r", stdin);
+	freopen("IN4.txt", "r", stdin);
 	Polyn polyn[maxn];
 	Polyn TempPolyn;
 	int LenPolyns;
@@ -21,74 +21,74 @@ int main()
 	{
 		switch (N)
 		{
-		case 0:
-		{
-			if (LenPolyns >= maxn-5)
+			case 0:
 			{
-				printf("Sorry. Create fail\n");
+				if (LenPolyns >= maxn - 5)
+				{
+					printf("Sorry. Create fail\n");
+					break;
+				}
+				if (polyn[LenPolyns + 1].root = CreatPolyn(polyn[LenPolyns + 1].root))
+				{
+					LenPolyns++;
+					printf("Create successfullly!\n");
+				}
+				else
+					printf("Sorry. Create fail\n");
 				break;
 			}
-			if (polyn[LenPolyns + 1].root = CreatPolyn(polyn[LenPolyns + 1].root))
+			case 1:
 			{
-				LenPolyns++;
-				printf("Create successfullly!\n");
+				printf("Which polyn do you want?\n");
+				scanf("%d", &i);
+				if (polyn[i].root)
+					PrintPolyn(polyn[i].root);
+				else
+					printf("Sorry, no such polyn\n");
+				break;
 			}
-			else
-				printf("Sorry. Create fail\n");
-			break;
-		}
-		case 1:
-		{
-			printf("Which polyn do you want?\n");
-			scanf("%d", &i);
-			if (polyn[i].root)
-				PrintPolyn(polyn[i].root);
-			else
-				printf("Sorry, no such polyn\n");
-			break;
-		}
-		case 2:
-		{
-			printf("What are the polyns do you want to add?\n");
-			scanf("%d %d", &i, &j);
-			if (TempPolyn.root = AddPolyn(polyn[i].root, polyn[j].root))
-				PrintPolyn(TempPolyn.root);
-			else
-				printf("No such polyns\n");
-			break;
-		}
-		case 3:
-		{
-			printf("What are the polyns do you want to subtract?\n");
-			scanf("%d %d", &i, &j);
-			if(TempPolyn.root = SubtractPolyn(polyn[i].root, polyn[j].root))
-				PrintPolyn(TempPolyn.root);
-			else
-				printf("No such polyns\n");
-			break;
-		}
-		case 4:
-		{
-			printf("What are the polyns do you want to multify?\n");
-			scanf("%d %d", &i, &j);
-			if(TempPolyn.root = MultiplyPolyn(polyn[i].root, polyn[j].root))
-				PrintPolyn(TempPolyn.root);
-			else
-				printf("No such polyns\n");
-			break;
-		}
-		case 5:
-		{
-			printf("Which polyn do you want to opposite?\n");
-			scanf("%d", &i);
-			if (Opposite(polyn[i].root))
-				PrintPolyn(polyn[i].root);
-			else
-				printf("No such polyn\n");
-			break;
-		}
-		default:
-			break;
+			case 2:
+			{
+				printf("What are the polyns do you want to add?\n");
+				scanf("%d %d", &i, &j);
+				if (TempPolyn.root = AddPolyn(polyn[i].root, polyn[j].root))
+					PrintPolyn(TempPolyn.root);
+				else
+					printf("Sorry. Can not add\n");
+				break;
+			}
+			case 3:
+			{
+				printf("What are the polyns do you want to subtract?\n");
+				scanf("%d %d", &i, &j);
+				if (TempPolyn.root = SubtractPolyn(polyn[i].root, polyn[j].root))
+					PrintPolyn(TempPolyn.root);
+				else
+					printf("Sorry. Can not substract\n");
+				break;
+			}
+			case 4:
+			{
+				printf("What are the polyns do you want to multify?\n");
+				scanf("%d %d", &i, &j);
+				if (TempPolyn.root = MultiplyPolyn(polyn[i].root, polyn[j].root))
+					PrintPolyn(TempPolyn.root);
+				else
+					printf("Sorry. Can not multify\n");
+				break;
+			}
+			case 5:
+			{
+				printf("Which polyn do you want to opposite?\n");
+				scanf("%d", &i);
+				if (Opposite(polyn[i].root))
+					PrintPolyn(polyn[i].root);
+				else
+					printf("Sorry. Can not opposite\n");
+				break;
+			}
+			default:
+				break;
 		}
 	}
 	return 0;
