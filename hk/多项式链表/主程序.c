@@ -6,7 +6,16 @@ int main()
 	Polyn TempPolyn;
 	int LenPolyns;
 	int i, j, N;
-	printf("0.Create\n1.Show\n2.Add\n3.Substract\n4.Multify\n5.Opposite\n6.Exit\n");
+	printf("                                  ***********************************************\n");
+	printf("                                  *                  Menu                       *\n");
+	printf("                                  *                0.Create                     *\n");
+	printf("                                  *                1.Show                       *\n");
+	printf("                                  *                2.Add                        *\n");
+	printf("                                  *                3.Substract                  *\n");
+	printf("                                  *                4.Multify                    *\n");
+	printf("                                  *                5.Opposite                   *\n");
+	printf("                                  *                6.Exit                       *\n");
+	printf("                                  ***********************************************\n");
 	LenPolyns = 0;
 	while (scanf("%d", &N) != EOF && N != 6)
 	{
