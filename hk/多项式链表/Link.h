@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 const int maxn = 100005;
-int NumPolyns;
+int NumPolyns;		//用户输入的多项式有多少项
 char StackS[5];   //字母栈
 double StackCoe;     //系数栈
 double StackTi;      //次数栈
@@ -23,7 +23,7 @@ struct Polyn
 		root = NULL;
 	}
 };
-bool NewNode0(Node *P)
+bool NewNode0(Node *P)			//为新节点初始化，下同
 {
 	P->coe = 0;
 	P->time = maxn + 10;
@@ -58,7 +58,7 @@ Node* Find(Node* root, double ti)      //在p后面加新结点
 	}
 	return p;
 }
-Node* Merge(Node* root)     //合并同类项
+Node* Merge(Node* root)     //合并同类项，并删除系数为0且指数不为0的项
 {
 	if (!root)
 		return NULL;
@@ -118,7 +118,7 @@ Node* CreatPolyn(Node *root)     //按次数从小到大创建
 	Merge(root);
 	return root;
 }
-bool PrintPolyn(Node *root)
+bool PrintPolyn(Node *root)			//打印，先打印系数，再指数
 {
 	if (!root)
 		return false;
@@ -186,7 +186,7 @@ bool PrintPolyn(Node *root)
 	}
 	putchar('\n');
 }
-Node* AddPolyn(Node* root1, Node* root2)
+Node* AddPolyn(Node* root1, Node* root2)			//root1+root2
 {
 	if (!root1 || !root2)
 		return NULL;
@@ -233,7 +233,7 @@ Node* AddPolyn(Node* root1, Node* root2)
 	}
 	return Merge(root3);
 }
-bool Opposite(Node* root)
+bool Opposite(Node* root)				//root取反
 {
 	if (!root)
 		return NULL;
@@ -247,7 +247,7 @@ bool Opposite(Node* root)
 	}
 	return true;
 }
-Node* SubtractPolyn(Node* root1, Node* root2)
+Node* SubtractPolyn(Node* root1, Node* root2)				//root1-root2
 {
 	if (!root1 || !root2)
 		return NULL;
@@ -261,7 +261,7 @@ Node* SubtractPolyn(Node* root1, Node* root2)
 	}
 	return p;
 }
-Node* MultiplyPolyn(Node* root1, Node* root2)
+Node* MultiplyPolyn(Node* root1, Node* root2)		//root1*root2
 {
 	if (!root1 || !root2)
 		return NULL;
@@ -295,7 +295,7 @@ Node* MultiplyPolyn(Node* root1, Node* root2)
 	Merge(root3);
 	return root3;
 }
-bool DeletePolyns(Node* root)
+bool DeletePolyns(Node* root)			//删除root链表
 {
 	if (!root)
 		return false;
