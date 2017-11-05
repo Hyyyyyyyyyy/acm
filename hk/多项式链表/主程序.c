@@ -1,7 +1,7 @@
 #include "Link.h"
 int main()
 {
-	//freopen("IN4.txt", "r", stdin);
+	freopen("IN4.txt", "r", stdin);
 	Polyn polyn[maxn];
 	Polyn TempPolyn;
 	int LenPolyns;
@@ -116,5 +116,13 @@ int main()
 				printf("Please input number 0~6\n");
 		}
 	}
+	bool FlagDelete = true;
+	for(i = 1; i <= LenPolyns; i++)
+	{
+		if (!DeletePolyns(polyn[i].root))
+			printf("Sorry. Can not delete %d polyn\n", i), FlagDelete = false;
+	}
+	if (FlagDelete)
+		printf("Delete All\n");
 	return 0;
 }

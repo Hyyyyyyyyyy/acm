@@ -295,3 +295,17 @@ Node* MultiplyPolyn(Node* root1, Node* root2)
 	Merge(root3);
 	return root3;
 }
+bool DeletePolyns(Node* root)
+{
+	if (!root)
+		return false;
+	Node* p;
+	while (root->Next)
+	{
+		p = root;
+		root = root->Next;
+		free(p);
+	}
+	free(root);
+	return true;
+}
