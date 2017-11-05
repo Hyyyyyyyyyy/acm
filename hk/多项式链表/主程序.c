@@ -1,7 +1,7 @@
 #include "Link.h"
 int main()
 {
-	//freopen("IN.txt", "r", stdin);
+	//freopen("IN4.txt", "r", stdin);
 	Polyn polyn[maxn];
 	Polyn TempPolyn;
 	int LenPolyns;

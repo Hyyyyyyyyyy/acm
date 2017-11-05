@@ -124,7 +124,7 @@ bool PrintPolyn(Node *root)			//打印，先打印系数，再指数
 		return false;
 	if (!root->Next)
 		return false;
-	bool Flag = false;
+	bool Flag = false;						//false 为第1位   true 为非第一位
 	Node* p = root->Next;
 	while (p)
 	{
@@ -168,18 +168,8 @@ bool PrintPolyn(Node *root)			//打印，先打印系数，再指数
 		}
 		else
 		{
-			if (Flag)
-			{
-				if (p->coe > 0)
-					printf("%.1f", p->coe);
-				else
-					printf("%.1f", -p->coe);
-			}
-			else
-			{
-				if (p->coe != 0)
-					printf("%.1f", fabs(p->coe));
-			}
+			if (p->coe == 1 || p->coe == -1)
+				printf("%.1f", fabs(p->coe));
 		}
 		p = p->Next;
 		Flag = true;
