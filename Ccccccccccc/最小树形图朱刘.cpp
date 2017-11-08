@@ -129,5 +129,7 @@ ZHULIU zhuliu;
 //for(i = 1; i <= N; i++)
 //  addedge(0, i, sum+1);
 //inin(0, N+1, N+M);
-//if(zhuliu.zhuliu() - (sum+1) >= (sum+1))
+//if(zhuliu.zhuliu() - (sum+1) >= (sum+1) || zhuliu.zhuliu() == -1)
+//  printf("impossible\n");
+//else
 //  printf("%d %d\n", zhuliu.zhuliu()-(sum+1), pos-M);
