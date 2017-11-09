@@ -1,0 +1,23 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <cmath>
+#include <set>
+#include <map>
+#include <cctype>
+#include <vector>
+#include <queue>
+#include <string>
+#include <iostream>
+using namespace std;
+#define foR for
+#define for9 for
+typedef long long ll;
+typedef unsigned long long ull;
+const int inf = (1ll << 31) - 1;
+const ll INF = (1ull << 63) - 1;
+const double PI = acos(-1.0);
+const double eps = 1e-7;
+const ll MOD = 1e9;
+const int maxn = 100000 + 100;
+const int maxm = 1000000 + 100;
