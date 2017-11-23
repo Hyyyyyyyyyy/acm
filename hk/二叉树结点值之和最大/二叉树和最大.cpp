@@ -86,7 +86,7 @@ int Destroy(TreeNode** root)
 }
 int main()
 {
-	freopen("IN.txt", "r", stdin);
+	//freopen("IN.txt", "r", stdin);
 	int i, j, n, m;
 	struct TreeNode* root = NULL;
 	printf("                                  ***********************************************\n");
