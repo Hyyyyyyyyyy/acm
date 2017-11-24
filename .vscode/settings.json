@@ -428,6 +428,7 @@
         "list": "cpp",
         "xhash": "cpp",
         "memory": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "bitset": "cpp"
     }
 }
