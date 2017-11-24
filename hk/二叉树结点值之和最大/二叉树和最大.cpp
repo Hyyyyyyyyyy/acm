@@ -88,7 +88,7 @@ int main()
 {
 	//freopen("IN.txt", "r", stdin);
 	int i, j, n, m;
-	struct TreeNode* root;
+	struct TreeNode* root = NULL;
 	printf("                                  ***********************************************\n");
 	printf("                                  *                  Menu                       *\n");
 	printf("                                  *                0.Build                      *\n");
@@ -125,6 +125,7 @@ int main()
 				printf("Yes. Destroy successfully!\n");
 			else
 				printf("Sorry. Destroy failed\n");
+			root = NULL;
 			break;
 		}
 		default:
