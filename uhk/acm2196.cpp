@@ -34,9 +34,14 @@ struct Node
 	Node(int a, int b, int c) : u(a), v(b), w(c) {}
 };
 vector<Node> G[maxn];
-int dp[maxn][2];
-int index[maxn][2];
+int dp[maxn][2];    //dp[i][0] 表示i节点的最远点距离    dp[i][1]表示i结点的次远点距离
+int index[maxn][2]; //index[i][0] 表示i结点到最远点经过的子结点     index[i][1]表示i结点到次远点经过的子结点
 int N;
+//两次dfs 第一次该结点到子树某点的最远距离  第二次该结点的父亲结点到子树的最远距离+该结点到父亲节点的距离
+//dfs2分两种情况 该结点在父亲节点的最远距离上  该结点不在父亲节点的最远距离上
+//若在上，则选父亲节点的次远距离
+//dp[u][0] = max(dp[u][0], dp[v][0]);
+//dp[v][1] = max(dp[v][1], dp[u][1] + w)  或 dp[v][1] = max(dp[v][1], dp[u][0] + w);
 void dfs1(int u, int fa)
 {
 	int i, j;
