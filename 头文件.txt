@@ -8,6 +8,8 @@
 #include <cctype>
 #include <vector>
 #include <queue>
+#include <stack>
+#include <deque>
 #include <string>
 #include <iostream>
 using namespace std;
@@ -23,5 +25,5 @@ const ll INF = (1ll << 63) - 1;
 const double PI = acos(-1.0);
 const double eps = 1e-7;
 const ll MOD = 100000007ll;
-const int maxn = 100000 + 100;
+const int maxn = 1000000 + 100;
 const int maxm = 1000000 + 100;
