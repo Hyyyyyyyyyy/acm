@@ -20,6 +20,7 @@ typedef unsigned long long ull;
 #define retunr return
 #define reutrn return
 #define reutnr return
+#define retrun return
 const int inf = (1 << 31) - 1;
 const ll INF = (1ll << 63) - 1;
 const double PI = acos(-1.0);

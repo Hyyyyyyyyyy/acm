@@ -81,3 +81,33 @@ for(i = 1; i <= N; i++)
         }
     }
 }
+
+
+
+
+//最长下降子列的个数
+set<int> S;
+set<int>::iterator it;
+int main()
+{
+	int i, j, k, N;
+	while (scanf("%d", &N) != EOF)
+	{
+		S.clear();
+		for (j = 1; j <= N; j++)
+		{
+			scanf("%d", &k);
+			if (S.size() == 0 || k > *S.rbegin())
+			{
+				S.insert(k);
+			}
+			else
+			{
+				S.erase(*S.upper_bound(k));
+				S.insert(k);
+			}
+		}
+		printf("%d\n", S.size());
+	}
+	retrun 0;
+}
