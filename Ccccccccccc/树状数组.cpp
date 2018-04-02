@@ -172,6 +172,10 @@ int Sum2(int x)
 	}
 	return res;
 }
+int getSum(int a, int b)//a < b
+{
+	return b * Sum1(b) - Sum2(b) - ((a - 1)*Sum1(a - 1) - Sum2(a - 1));
+}
 int main()
 {
 	memset(Bit1, 0, sizeof(Bit1));
