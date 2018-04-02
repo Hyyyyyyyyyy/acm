@@ -189,7 +189,7 @@ int main()
 	}
 	//区间查询 查询[a,b]
 	scanf("%d %d", &a, &b);
-	printf("%d\n", b*Sum1(b) - Sum2(b) - ((a-1)*Sum1(a-1) - Sum2(a-1)));
+	printf("%d\n", getSum(a, b));
 	//区间修改 [a,b]+c
 	scanf("%d %d %d", &a, &b, &c);
 	Add1(a, c);
