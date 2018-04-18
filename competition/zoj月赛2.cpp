@@ -8,6 +8,8 @@
 #include <cctype>
 #include <vector>
 #include <queue>
+#include <stack>
+#include <deque>
 #include <string>
 #include <iostream>
 using namespace std;
@@ -18,53 +20,84 @@ typedef unsigned long long ull;
 #define retunr return
 #define reutrn return
 #define reutnr return
+#define retrun return
 const int inf = (1 << 31) - 1;
 const ll INF = (1ll << 63) - 1;
 const double PI = acos(-1.0);
 const double eps = 1e-7;
-const ll MOD = 100000007ll;
-const int maxn = 100000 + 100;
-const int maxm = 100000 + 100;
-ll A[maxn], B[maxn];
+const ll MOD = 1000000007ll;
+const int maxn = 1000000 + 100;
+const int maxm = 1000000 + 100;
+struct Node
+{
+	int v;
+	int next;
+};
+Node node[maxn];
+int top[maxn];
+int bot[maxn];
+int tot;
+void Push(int s, int v)
+{
+	node[tot].v = v;
+	node[tot].next = top[s];
+	if(bot[s] == -1)
+		bot[s] = tot;
+	top[s] = tot++;
+}
+int Pop(int s)
+{
+	if(bot[s] == -1)
+		return -1;
+	int res = node[top[s]].v;
+	top[s] = node[top[s]].next;
+	if(top[s] == -1)
+		bot[s] = -1;
+	return res;
+}
+void Move(int s, int t)
+{
+	if(bot[t] == -1)
+		return;
+	node[bot[t]].next = top[s];
+	if(bot[s] == -1)
+		bot[s] = bot[t];
+	top[s] = top[t];
+	top[t] = bot[t] = -1;
+}
 int main()
 {
-	ll i, j, k, CAS, cas, N;
-	while (scanf("%lld", &CAS) != EOF)
+	int i, j, k, cas, CAS, N, Q, q, op, a,b, c;
+	while(scanf("%d", &CAS) != EOF)
 	{
-		for (cas = 1; cas <= CAS; cas++)
+		for(cas = CAS; cas <= CAS; cas++)
 		{
-			scanf("%lld", &N);
-			for (i = 1; i <= N; i++)
+			scanf("%d %d", &N, &Q);
+			tot = 0;
+			memset(top, -1, sizeof(top));
+			memset(bot, -1, sizeof(bot));
+			for(q = 1; q <= Q; q++)
 			{
-				scanf("%lld", &A[i]);
-			}
-			for (i = 1; i <= N; i++)
-			{
-				scanf("%lld", &B[i]);
-			}
-			sort(B + 1, B + 1 + N);
-			ll doudou = 0;
-			for (i = 1; i <= N; i++)
-			{
-				ll l = 1;
-				ll r = N;
-				ll mid;
-				while (l <= r)
+				scanf("%d", &op);
+				if(op == 1)
 				{
-					mid = (l + r) / 2;
-					if (A[i] < B[mid])
-						r = mid - 1;
-					else if (A[i] > B[mid])
-						l = mid + 1;
-					else
-					{
-						printf("%lld\n", A[i]);
-						doudou = 1;
-						break;
-					}
+					scanf("%d %d", &a, &b);
+					Push(a, b);
 				}
-				if (doudou)
-					break;
+				else if(op == 2)
+				{
+					scanf("%d", &a);
+					int res = Pop(a);
+					if(res != -1)
+						printf("%d\n", res);
+					else
+						printf("EMPTY\n");
+				}
+				else
+				{
+					scanf("%d %d", &a, &b);
+					Move(a, b);
+				}
 			}
 		}
 	}

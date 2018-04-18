@@ -8,6 +8,8 @@
 #include <cctype>
 #include <vector>
 #include <queue>
+#include <stack>
+#include <deque>
 #include <string>
 #include <iostream>
 using namespace std;
@@ -18,34 +20,31 @@ typedef unsigned long long ull;
 #define retunr return
 #define reutrn return
 #define reutnr return
+#define retrun return
 const int inf = (1 << 31) - 1;
 const ll INF = (1ll << 63) - 1;
 const double PI = acos(-1.0);
 const double eps = 1e-7;
-const ll MOD = 100000007ll;
-const int maxn = 100000 + 100;
-const int maxm = 100000 + 100;
-ll ar[maxn];
-ll N, M;
+const ll MOD = 1000000007ll;
+const int maxn = 100 + 100;
+const int maxm = 1000000 + 100;
+char s1[maxn];
+char s2[maxn];
+char s[maxn];
 int main()
 {
-	ll i, j, k, n, m, cas, CAS;
-	while (scanf("%lld", &CAS) != EOF)
+	int i, j, N, n;
+	while(scanf("%d", &N) != EOF)
 	{
-		for (cas = 1; cas <= CAS; cas++)
+		for(n = 1; n <= N; n++)
 		{
-			scanf("%lld %lld", &N, &M);
-			for (i = 1; i <= N; i++)
-			{
-				scanf("%lld", &ar[i]);
-			}
-			sort(ar + 1, ar + 1 + N);
-			ll res = 0;
-			for (i = 1, j = 2 * M; i < j; i++, j--)
-			{
-				res += ar[i] * ar[j];
-			}
-			printf("%lld\n", res);
+			scanf("%s %s", s1, s2);
+			strcat(s2, s1);
+			int L = strlen(s2);
+			L += strlen(s1);
+			toupper(s2[0]);
+			s2[L] = 0;
+			puts(s2);
 		}
 	}
 	return 0;
