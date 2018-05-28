@@ -1,0 +1,8 @@
+N = input()
+N = int(N)
+i = 2
+res = input()
+while i <= N:
+    s1 = input()
+    res = res * s1
+print res
