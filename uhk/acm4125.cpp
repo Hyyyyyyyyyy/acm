@@ -1,6 +1,3 @@
-//笛卡尔树是一棵二叉树，树的每个节点有两个值，一个为key，一个为value。
-//光看key(第一关键字)的话，笛卡尔树是一棵二叉搜索树，每个节点的左子树的key都比它小，右子树都比它大；
-//光看value(第二关键字)的话，笛卡尔树有点类似堆，根节点的value是最小（或者最大）的，每个节点的value都比它的子树要大。
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -35,7 +32,6 @@ struct Node
 {
 	int l;
 	int r;
-	int pre;
 	int id;
 	int num;
 };
@@ -46,11 +42,60 @@ bool comp(Node &a, Node &b)
 }
 int N;
 int tol;
+int ar[maxn];
 int Stack[maxn];
-char road[maxn];
-bool vis[maxn];
-int rq[maxn];   //深搜容器，非递归写dfs
-int build_dkaer_tree()     //按值（第一关键字）从小到大排序，对标号（第二关键字）建树
+char former[7010], latter[maxn*3];
+int Next[7010];
+int rq[maxn], vis[maxn];
+void GETnext()      //有优化
+{
+	int i, j, k;
+	int L = strlen(former);
+	Next[0] = -1;
+	i = 0;
+	j = -1;
+	while (i < L && j < L)
+	{
+		if (j == -1 || former[i] == former[j])
+		{
+			i++;
+			j++;
+			//优化
+			if (former[i] == former[j])
+				Next[i] = Next[j];
+			else
+				Next[i] = j;
+			//如果不要优化，这样：
+			//Next[i] = j;
+		}
+		else
+			j = Next[j];
+	}
+}
+int KMP()       //返回目标串在主串中出现的次数
+{
+	int i, j;
+	GETnext();
+	int L1 = strlen(former);
+	int L2 = strlen(latter);
+	i = 0;
+	j = 0;
+	int res = 0;
+	while (i < L2)
+	{
+		while (-1 != j && latter[i] != former[j])
+			j = Next[j];
+		i++;
+		j++;
+		if (j >= L1)
+		{
+			res++;
+			j = Next[j];
+		}
+	}
+	return res;
+}
+int build_dkaer_tree()
 {
 	int i, j, k;
 	int temp;
@@ -76,13 +121,13 @@ int build_dkaer_tree()     //按值（第一关键字）从小到大排序，对
 }
 void dfs(int root)
 {
-	memset(vis, false, sizeof(vis));
+	memset(vis, 0, sizeof(vis));
 	int top = 0;
 	rq[++top] = root;
 	while (!vis[root])
 	{
 		int u = rq[top];
-		road[tol++] = (u & 1 ? '1' : '0');
+		latter[tol++] = (u & 1 ? '1' : '0');
 		int v = node[u].l;
 		if (v != -1 && !vis[v])
 		{
@@ -98,20 +143,7 @@ void dfs(int root)
 		top--;
 		vis[u] = 1;
 	}
-	//latter[tol++] = (node[root].num & 1 ? '1' : '0');
-	//if (node[root].l != -1)
-	//{
-	//	dfs(node[root].l);
-	//	latter[tol++] = (node[root].num & 1 ? '1' : '0');
-	//}
-	//if (node[root].r != -1)
-	//{
-	//	dfs(node[root].r);
-	//	latter[tol++] = (node[root].num & 1 ? '1' : '0');
-	//}
-	return;
 }
-char s[maxn];
 int main()
 {
 	int i, j, k, CAS, cas;
@@ -125,14 +157,15 @@ int main()
 				scanf("%d", &node[i].num);
 				node[i].id = i;
 				node[i].l = node[i].r = -1;
+				ar[i] = node[i].num;
 			}
-			scanf("%s", s);
+			scanf("%s", former);
 			sort(node + 1, node + 1 + N, comp);
 			int root = build_dkaer_tree();
 			tol = 0;
 			dfs(root);
-			road[tol] = 0;
-			puts(road);
+			latter[tol] = 0;
+			printf("Case #%d: %d\n", cas, KMP());
 		}
 	}
 	return 0;
