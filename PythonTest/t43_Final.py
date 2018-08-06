@@ -43,10 +43,10 @@ class CentralCorridor(Scene):
             print "DOES NOT COMPUTE!"
             return 'central_corridor'
 
-class LaserWeaponArmoy(Scene):
+class LaserWeaponArmory(Scene):
     def enter(self):
         print "get the bomb, The code is 3 digits."
-        code = "%d%d%d" % (randint(1,9), randint(1,9), randint(1,9))
+        code = "666"
         guess = raw_input("> ")
         guesses = 0
 
@@ -74,21 +74,27 @@ class TheBridge(Scene):
 class EscapePod(Scene):
     def enter(self):
         print "do u take?"
-        good_pod = randint(1,5)
+        good_pod = "Sure"
         guess = raw_input(">")
 
-        if int(guess) != good_pod:
+        if guess != good_pod:
             return 'death'
         else:
             return 'finished'
 
+class Pass(Scene):
+    def enter(self):
+        print "Congratulations! You beat the Gothon!"
+        exit(0)
+
 class Map(object):
     scenes = {
         'central_corridor': CentralCorridor(),
-        'laser_weapon_armoy': LaserWeaponArmoy(),
+        'laser_weapon_armory': LaserWeaponArmory(),
         'the_bridge': TheBridge(),
         'escape_pod': EscapePod(),
-        'death': Death()
+        'death': Death(),
+        'finished': Pass()
     }
 
     def __init__(self, start_scene):
